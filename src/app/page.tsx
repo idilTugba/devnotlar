@@ -1,4 +1,5 @@
 'use client';
+
 import NoteForm from '@/components/NoteForm';
 import NoteList from '@/components/NoteList';
 import React, { useState } from 'react';    
@@ -26,7 +27,7 @@ export default function Home() {
     <div className="p-4 max-w-xl mx-auto">
       <h1 className="text-xl font-semibold mb-4">📝 Yeni Not:</h1>
       <NoteForm onAdd={addNote} />
-
+      <hr className="my-6" />
       <h2 className="text-lg font-medium mb-2">🗒️ Notlar:</h2>
       <NoteList notes={notes} onDelete={deleteNote} />
     </div>
