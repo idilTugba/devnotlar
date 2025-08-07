@@ -2,7 +2,7 @@
 
 import NoteForm from '@/components/NoteForm';
 import NoteList from '@/components/NoteList';
-import React, { useState } from 'react';    
+import React, { useEffect, useState } from 'react';    
 import { v4 as uuidv4 } from 'uuid';
 import { Note } from '@/types/notes';
 
@@ -10,13 +10,24 @@ export default function Home() {
   const [notes, setNotes] = useState<Note[]>([])
   const [noteEdit, setNoteEdit] = useState<Note|null>(null)
 
+  useEffect(()=>{
+    const storedNotes = localStorage.getItem('notes');
+    console.log('storedNotes', storedNotes);
+    if (!storedNotes) return
+    setNotes(JSON.parse(storedNotes));
+  }, [])
+  
+  useEffect(()=>{
+    localStorage.setItem('notes', JSON.stringify(notes))
+  },[notes])
+
   const addNote = (text: string) => {
     const newNote: Note = {
       id: uuidv4(),
       text,
       createdAt: new Date()
     }
-    setNotes(prev => [...prev, newNote])
+    setNotes(prev => [...prev, newNote])  
   }
 
   const deleteNote = (id: string) => {
@@ -33,6 +44,7 @@ export default function Home() {
     console.log('editNote', note);
     if (!note) return;
     setNotes(prev => prev.map(n => n.id === note.id ? note : n))
+    localStorage.setItem('notes', JSON.stringify(notes.map(n => n.id === note.id ? note : n)))
     setNoteEdit(null);
   }
 
