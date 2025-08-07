@@ -5,9 +5,10 @@ import { Note } from '@/types/notes'
 interface NoteListProps {
   notes: Note[]
   onDelete: (id: string) => void
+  onEdit: (id: string) => void
 }
 
-export default function NoteList({ notes, onDelete }: NoteListProps) {
+export default function NoteList({ notes, onDelete, onEdit }: NoteListProps) {
   return (
     <ul className="space-y-2">
       {notes.map((note) => (
@@ -19,6 +20,10 @@ export default function NoteList({ notes, onDelete }: NoteListProps) {
           >
             X
           </button>
+          <button
+            className="text-sm text-red-500 hover:underline"
+            onClick={()=>onEdit(note.id)}
+          >Edit</button>   
         </li>
       ))}
     </ul>
